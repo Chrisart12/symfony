@@ -7,6 +7,7 @@ namespace OC\PlatformBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdvertController extends Controller
 {
@@ -63,22 +64,17 @@ public function viewAction($id)
 
 
 
-  public function addAction($id, Request $request)
+  public function addAction(Request $request)
   {
-    // La gestion d'un formulaire est particulière, mais l'idée est la suivante :
+    $antispam = $this->container->get('oc_platform.antispam');
 
-    // Si la requête est en POST, c'est que le visiteur a soumis le formulaire
-     $advert = array(
-      'title'   => 'Recherche développpeur Symfony',
-      'id'      => $id,
-      'author'  => 'Alexandre',
-      'content' => 'Nous recherchons un développeur Symfony débutant sur Lyon. Blabla…',
-      'date'    => new \Datetime()
-    );
+    $text = 'je dis que je vais devenir un bon dévelloppeur et tout le monnde sera surpris, je vous le certifie';
+    if ($antispam->isSpam($text)){
+      throw new \Exception("Votre message a été détecté com !");
+      
+    }
 
-    return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
-      'advert' => $advert
-    ));
+    return new Response("Bonjour");
   }
 
 
