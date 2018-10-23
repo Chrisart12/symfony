@@ -69,5 +69,10 @@ swiftmailer:
     spool: { type: memory }
 
 sensio_framework_extra:
-   router:
+    router:
         annotations: false
+
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable: true 
